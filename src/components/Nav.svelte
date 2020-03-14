@@ -1,7 +1,3 @@
-<script>
-	export let segment;
-</script>
-
 <style>
 	nav {
 		border-bottom: 1px solid rgba(255,62,0,0.1);
@@ -48,13 +44,31 @@
 	}
 </style>
 
+<script>
+	function logout() {
+		localStorage.removeItem("authToken")
+		window.location.replace('/')
+	}
+
+	function isAuthenticated() {
+		return localStorage.getItem("authToken") != null
+	}
+
+	export let segment;
+</script>
+
 <nav>
 	<ul>
 		<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
-		<li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li>
-
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch aria-current='{segment === "blog" ? "page" : undefined}' href='blog'>blog</a></li>
+		<li><a aria-current='{segment === "game" ? "page" : undefined}' href='game'>game</a></li>
+		{#if process.browser}
+			{#if isAuthenticated()}
+				<li><a aria-current='{segment === "profile" ? "page" : undefined}' href='profile'>profile</a></li>
+				<li><a href='#' on:click|preventDefault={logout}>logout</a></li>
+			{:else}
+				<li><a aria-current='{segment === "login" ? "page" : undefined}' href='login'>login</a></li>
+				<li><a aria-current='{segment === "register" ? "page" : undefined}' href='register'>register</a></li>
+			{/if}
+		{/if}
 	</ul>
 </nav>

@@ -1,5 +1,6 @@
 <script>
 	import Nav from '../components/Nav.svelte';
+	import { NotificationDisplay } from '@beyonk/svelte-notifications'
 
 	export let segment;
 </script>
@@ -16,6 +17,7 @@
 </style>
 
 <Nav {segment}/>
+<NotificationDisplay/>
 
 <main>
 	<slot></slot>

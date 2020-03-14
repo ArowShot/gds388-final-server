@@ -36,11 +36,32 @@
 	<title>Sapper project template</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<script>
+	let promise = getPlayers()
 
-<figure>
-	<img alt='Borat' src='great-success.png'>
-	<figcaption>HIGH FIVE!</figcaption>
-</figure>
+	async function getPlayers() {
+		let resJson = await fetch('/topplayers')
+		let res = await resJson.json()
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+		return res.users || []
+	}
+
+
+	function sorted(list) {
+		return list.sort((a, b) => b.cardsPlayed - a.cardsPlayed)
+	}
+</script>
+
+<h1>Top Players:</h1>
+
+{#await promise}
+	<p>Loading players...</p>
+{:then players}
+<ol>
+	{#each sorted(players) as player}
+		<li>{player.username} has played {player.cardsPlayed} cards.</li>
+	{/each}
+</ol>
+{:catch error}
+	<p style="color: red;">{error.text}</p>
+{/await}
