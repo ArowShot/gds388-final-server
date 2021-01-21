@@ -19,7 +19,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.4",
     "sirv": "^0.4.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
